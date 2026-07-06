@@ -1,0 +1,565 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════
+   LogicFlow Design System — "ChatGPT" Clean Theme
+   ═══════════════════════════════════════════════════════════════ */
+
+@theme {
+  --color-navy-950: #0d0d0d;
+  --color-navy-900: #171717;
+  --color-navy-800: #212121;
+  --color-navy-700: #2f2f2f;
+  --color-navy-600: #424242;
+  --color-navy-500: #6e6e6e;
+
+  --color-teal-500: #10a37f;
+  --color-teal-400: #19c37d;
+  --color-teal-300: #5eead4;
+  --color-teal-600: #0d9488;
+
+  --color-cyan-500: #06b6d4;
+  --color-cyan-400: #22d3ee;
+
+  --color-purple-500: #8b5cf6;
+  --color-purple-400: #a78bfa;
+
+  --color-rose-500: #f43f5e;
+  --color-emerald-500: #10b981;
+
+  --color-surface-dark: rgba(33, 33, 33, 0.95);
+  --color-surface-darker: rgba(23, 23, 23, 0.95);
+  --color-glass-border: rgba(255, 255, 255, 0.06);
+  --color-glass-hover: rgba(255, 255, 255, 0.08);
+
+  --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 2s ease-in-out infinite;
+  --animate-slide-up: slide-up 0.3s ease-out;
+  --animate-slide-in-right: slide-in-right 0.3s ease-out;
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-bounce-in: bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --animate-typing: typing 1.4s infinite;
+}
+
+/* ─── CSS Custom Properties for Theme Toggle ────────────────── */
+:root {
+  --bg-primary: #212121;
+  --bg-secondary: #171717;
+  --bg-surface: #2f2f2f;
+  --bg-surface-hover: #3a3a3a;
+  --text-primary: #ececec;
+  --text-secondary: #b4b4b4;
+  --text-muted: #8e8e8e;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.14);
+  --accent: #10a37f;
+  --accent-glow: rgba(16, 163, 127, 0.12);
+  --glass-bg: #2f2f2f;
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --shadow-glow: none;
+  --msg-bot-bg: #2f2f2f;
+  --msg-user-bg: transparent;
+  --sidebar-bg: #171717;
+  --input-bg: #303030;
+}
+
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f7f8;
+  --bg-surface: #f0f0f0;
+  --bg-surface-hover: #e5e5e5;
+  --text-primary: #0d0d0d;
+  --text-secondary: #6e6e6e;
+  --text-muted: #999999;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.14);
+  --accent: #10a37f;
+  --accent-glow: rgba(16, 163, 127, 0.08);
+  --glass-bg: #f7f7f8;
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --shadow-glow: none;
+  --msg-bot-bg: #f7f7f8;
+  --msg-user-bg: transparent;
+  --sidebar-bg: #f7f7f8;
+  --input-bg: #f0f0f0;
+}
+
+/* ─── Global Resets ─────────────────────────────────────────── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar Styling ─────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(142, 142, 142, 0.25);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(142, 142, 142, 0.4);
+}
+
+/* ─── Utility Classes (kept for widgets/admin) ──────────────── */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+.glass-input {
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 12px 16px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease;
+  outline: none;
+  width: 100%;
+}
+
+.glass-input:focus {
+  border-color: var(--accent);
+}
+
+.glass-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ─── Button Styles ─────────────────────────────────────────── */
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 24px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  transition: background 0.15s ease, opacity 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  opacity: 0.85;
+}
+
+.btn-primary:active {
+  opacity: 0.7;
+}
+
+.btn-primary:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-weight: 500;
+  padding: 10px 24px;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  transition: background 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-secondary:hover {
+  background: var(--bg-surface-hover);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  transition: background 0.15s ease, color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-ghost:hover {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.btn-danger {
+  background: rgba(244, 63, 94, 0.12);
+  color: #f43f5e;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(244, 63, 94, 0.15);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  transition: background 0.15s ease;
+}
+
+.btn-danger:hover {
+  background: rgba(244, 63, 94, 0.2);
+}
+
+/* ─── Animations ────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes bounce-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes typing {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
+  30% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+}
+
+/* ─── Gradient Text ─────────────────────────────────────────── */
+.gradient-text {
+  color: var(--accent);
+}
+
+/* ─── Background decorations (kept for landing page) ────────── */
+.bg-grid-pattern {
+  background-image: none;
+}
+
+.bg-glow-orb {
+  display: none;
+}
+
+/* ─── Pulsing Mic Animation ─────────────────────────────────── */
+@keyframes mic-glow {
+  0%, 100% { box-shadow: 0 0 4px #ef4444; }
+  50% { box-shadow: 0 0 14px #ef4444; }
+}
+
+.pulsing-mic {
+  animation: mic-glow 1.5s infinite ease-in-out;
+}
+
+/* ─── Cyberpunk Matrix Mode Overlay ─────────────────────────── */
+.matrix-grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(0, 255, 102, 0.04) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(0, 255, 102, 0.04) 1px, transparent 1px);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.matrix-active .matrix-grid-overlay {
+  opacity: 1;
+}
+
+.matrix-active {
+  --accent: #00ff66 !important;
+  --accent-glow: rgba(0, 255, 102, 0.15) !important;
+  --border-color: rgba(0, 255, 102, 0.2) !important;
+  --bg-primary: #050b07 !important;
+  --bg-secondary: #020503 !important;
+  --bg-surface: #0a140d !important;
+  --bg-surface-hover: #102416 !important;
+  --text-primary: #00ff66 !important;
+  --text-secondary: #80ffa2 !important;
+  --text-muted: #4d9c61 !important;
+  --input-bg: #080f0a !important;
+  --sidebar-bg: #020503 !important;
+  --msg-bot-bg: #070e0a !important;
+  text-shadow: 0 0 2px rgba(0, 255, 102, 0.3);
+}
+
+.matrix-active .btn-primary {
+  background: #00ff66 !important;
+  color: #020503 !important;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.4);
+}
+
+.matrix-active .btn-secondary {
+  border-color: #00ff66 !important;
+  color: #00ff66 !important;
+}
+
+.matrix-active .btn-ghost {
+  color: #80ffa2 !important;
+}
+
+.matrix-active .btn-ghost:hover {
+  background: #102416 !important;
+  color: #00ff66 !important;
+}
+
+/* Scanline effect */
+.scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.08) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.matrix-active .scanline {
+  opacity: 1;
+}
+
+/* ─── Neural Engine Log Terminal Styles ────────────────────────── */
+.terminal-glow-text {
+  font-family: 'Courier New', Courier, monospace;
+  color: #00ff66;
+  text-shadow: 0 0 3px rgba(0, 255, 102, 0.7);
+}
+
+.terminal-accent-text {
+  font-family: 'Courier New', Courier, monospace;
+  color: #00ffff;
+  text-shadow: 0 0 3px rgba(0, 255, 255, 0.7);
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.terminal-cursor::after {
+  content: '▋';
+  color: #00ff66;
+  animation: cursor-blink 1s infinite;
+  display: inline-block;
+}
+
+/* ─── Futuristic UI Additions ────────────────────────────── */
+.futuristic-card {
+  background: rgba(10, 10, 10, 0.75);
+  border: 1px solid rgba(16, 163, 127, 0.2);
+  box-shadow: 0 0 15px rgba(16, 163, 127, 0.1);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.futuristic-card:hover {
+  border-color: rgba(16, 163, 127, 0.4);
+  box-shadow: 0 0 25px rgba(16, 163, 127, 0.2);
+}
+
+.thought-node {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(30, 30, 30, 0.6);
+  font-size: 0.75rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.thought-node.active {
+  border-color: var(--accent);
+  background: rgba(16, 163, 127, 0.1);
+  box-shadow: 0 0 12px rgba(16, 163, 127, 0.25);
+}
+
+.thought-node::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.thought-node:hover::before {
+  left: 100%;
+}
+
+.thought-connector-line {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  flex: 1;
+  position: relative;
+}
+
+.thought-connector-line.active {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.thought-connector-line.active::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px #fff;
+  animation: pulse-dot 1.5s infinite linear;
+}
+
+@keyframes pulse-dot {
+  0% { left: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+.holographic-waveform {
+  position: absolute;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  height: 60px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ChatGPT Message style customization */
+.chatgpt-msg-container {
+  width: 100%;
+  border-bottom: 1px solid var(--border-color);
+  padding: 24px 0;
+  transition: background-color 0.2s ease;
+}
+
+.chatgpt-msg-container:hover {
+  background-color: rgba(255, 255, 255, 0.01);
+}
+
+.chatgpt-msg-inner {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.chatgpt-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.chatgpt-content {
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
+
+/* Sidebar item active state */
+.sidebar-item-active {
+  background: var(--bg-surface) !important;
+  color: var(--text-primary) !important;
+  font-weight: 500;
+}
+
+
