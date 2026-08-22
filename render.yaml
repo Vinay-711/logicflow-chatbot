@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: logicflow-chatbot
+    env: python
+    buildCommand: "cd frontend && npm install && npm run build && cd ../backend && pip install -r requirements.txt"
+    startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: NODE_VERSION
+        value: 20.11.0
+      - key: BYPASS_AUTH
+        value: "true"
+      - key: FRONTEND_DIST
+        value: "../frontend/dist"

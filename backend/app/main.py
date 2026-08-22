@@ -89,10 +89,15 @@ app.include_router(ws_router)
 app.include_router(admin_router)
 
 
-# ─── Root Endpoint ───────────────────────────────────────────
+import os
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
-@app.get("/", tags=["Health"])
-def root():
+# ─── Health Check Endpoint ───────────────────────────────────
+
+@app.get("/api/health", tags=["Health"])
+def health():
     """Health check endpoint."""
     return {
         "status": "online",
@@ -100,3 +105,39 @@ def root():
         "version": "1.0.0",
         "docs": "/docs",
     }
+
+
+# ─── Static Frontend Serving (SPA) ───────────────────────────
+
+FRONTEND_DIST_DIR = os.getenv(
+    "FRONTEND_DIST",
+    str(Path(__file__).resolve().parent.parent.parent / "frontend" / "dist")
+)
+
+if os.path.exists(FRONTEND_DIST_DIR):
+    assets_path = os.path.join(FRONTEND_DIST_DIR, "assets")
+    if os.path.exists(assets_path):
+        app.mount("/assets", StaticFiles(directory=assets_path), name="assets")
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def serve_spa(full_path: str = ""):
+        # Let API / Docs pass through if not matched
+        if full_path.startswith(("api", "ws", "docs", "redoc", "openapi.json")):
+            return {"detail": "Not Found"}
+        target_file = os.path.join(FRONTEND_DIST_DIR, full_path)
+        if full_path and os.path.isfile(target_file):
+            return FileResponse(target_file)
+        index_file = os.path.join(FRONTEND_DIST_DIR, "index.html")
+        if os.path.exists(index_file):
+            return FileResponse(index_file)
+        return {"status": "online", "name": "LogicFlow API"}
+else:
+    @app.get("/", tags=["Health"])
+    def root():
+        """Fallback root endpoint when frontend dist is not built."""
+        return {
+            "status": "online",
+            "name": "LogicFlow API",
+            "version": "1.0.0",
+            "docs": "/docs",
+        }
