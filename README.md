@@ -2,6 +2,10 @@
 
 A production-grade, full-stack web application implementing a deterministic, rule-based chatbot with dictionary-based O(1) intent matching, real-time WebSocket chat, an admin-managed knowledge base, and an analytics dashboard. Bypasses the login system for frictionless open access.
 
+## 🌐 Live Deployments
+- 🚀 **Interactive Live Web App**: [https://vinay-711.github.io/logicflow-chatbot/](https://vinay-711.github.io/logicflow-chatbot/)
+- ⚡ **Deploy Full-Stack with Python Backend to Render**: [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Vinay-711/logicflow-chatbot)
+
 ---
 
 ## Architecture
