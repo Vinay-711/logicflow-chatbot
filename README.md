@@ -1,6 +1,6 @@
 # LogicFlow — Rule-Based AI Chatbot
 
-A production-grade, full-stack web application implementing a deterministic, rule-based chatbot with dictionary-based O(1) intent matching, real-time WebSocket chat, an admin-managed knowledge base, and an analytics dashboard. Bypasses the login system for frictionless open access.
+A full-stack demonstration application implementing a deterministic, rule-based chatbot with dictionary-based O(1) intent matching, real-time WebSocket chat, an admin-managed knowledge base, and an analytics dashboard. Bypasses the login system for frictionless open access.
 
 ## 🌐 Live Deployments
 - 🚀 **Interactive Live Web App**: [https://vinay-711.github.io/logicflow-chatbot/](https://vinay-711.github.io/logicflow-chatbot/)
@@ -228,3 +228,9 @@ FastAPI auto-generates interactive API docs:
 | **Full-Stack Integration** | React ↔ FastAPI with proxy, real-time sync |
 | **Testing** | pytest suite covering engine, auth, admin; unit + integration |
 | **State Management** | Zustand stores for chat and theme |
+
+## Development boundaries
+
+[Frontend setup](frontend/README.md) explains the client separately from the Python service. GitHub Pages serves the static frontend; persisted sessions, admin operations and WebSocket responses require a reachable backend. The open-access demonstration configuration is not suitable for public administrative access without authorization controls.
+
+The dictionary lookup is constant-time on average for exact keys; phrase matching and token scanning have different costs. Verify claims against the [chat engine](backend/app/chat/engine.py) rather than treating the entire pipeline as O(1).

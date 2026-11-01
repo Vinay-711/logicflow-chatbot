@@ -1,16 +1,24 @@
-# React + Vite
+# LogicFlow Web Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React chat, session history and administration screens. The Python backend supplies the WebSocket and persistence behavior; static hosting alone does not provide those services.
 
-Currently, two official plugins are available:
+## Develop
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Run from this directory with Node.js compatible with the dependency versions in [package.json](package.json):
 
-## React Compiler
+```sh
+npm ci
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Use the local address printed by Vite. Configuration and backend startup are described in the [project README](../README.md); start those services in separate terminals.
 
-## Expanding the Oxlint configuration
+## Available checks
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```sh
+npm run lint
+npm run build
+npm run preview
+```
+
+These are the scripts present in the manifest. A successful bundle build is not a backend integration test. Check the API-offline state, failed requests, keyboard navigation and small-screen layout when changing the client. Never place private provider keys or wallet secrets in browser-visible environment values.
