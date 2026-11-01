@@ -149,7 +149,7 @@ def build_keyword_index(db: Session) -> Dict[str, Intent]:
     for intent in active_intents:
         for keyword in intent.keywords:
             # Normalize keyword and add to index
-            normalized = keyword.lower().strip()
+            normalized = sanitize_input(keyword)
             if normalized:
                 _keyword_index[normalized] = intent
 
@@ -190,11 +190,12 @@ def match_intent(sanitized_text: str, db: Session) -> Tuple[Optional[Intent], Op
 
     # Strategy 2: Multi-word keyword phrase matching
     for keyword, intent in _keyword_index.items():
-        if ' ' in keyword and keyword in sanitized_text:
+        if ' ' in keyword and _contains_whole_phrase(sanitized_text, keyword):
             return (intent, "phrase", keyword)
 
     # Strategy 3: Token-level matching
-    tokens = sanitized_text.split()
+    # Punctuation separates tokens without becoming part of the lookup key.
+    tokens = re.findall(r"\w+(?:'\w+)*", sanitized_text)
     for token in tokens:
         if token in STOPWORDS_FOR_TOKENS:
             continue
@@ -204,6 +205,11 @@ def match_intent(sanitized_text: str, db: Session) -> Tuple[Optional[Intent], Op
 
     # No match found
     return (None, None, None)
+
+
+def _contains_whole_phrase(text: str, phrase: str) -> bool:
+    """Match complete words, preserving punctuation around a phrase."""
+    return re.search(r"(?<!\w)" + re.escape(phrase) + r"(?!\w)", text) is not None
 
 
 def is_exit_command(sanitized_text: str) -> bool:
@@ -224,7 +230,7 @@ def is_exit_command(sanitized_text: str) -> bool:
 
     # Check if any exit phrase is contained in the input
     for cmd in EXIT_COMMANDS:
-        if cmd in sanitized_text:
+        if _contains_whole_phrase(sanitized_text, cmd):
             return True
 
     return False
