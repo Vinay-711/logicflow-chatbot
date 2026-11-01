@@ -234,3 +234,19 @@ FastAPI auto-generates interactive API docs:
 [Frontend setup](frontend/README.md) explains the client separately from the Python service. GitHub Pages serves the static frontend; persisted sessions, admin operations and WebSocket responses require a reachable backend. The open-access demonstration configuration is not suitable for public administrative access without authorization controls.
 
 The dictionary lookup is constant-time on average for exact keys; phrase matching and token scanning have different costs. Verify claims against the [chat engine](backend/app/chat/engine.py) rather than treating the entire pipeline as O(1).
+
+## Matching regression checks
+
+The chat engine matches exit commands and multi-word keywords at word boundaries,
+so `weekend` does not trigger `end`. Token matching tolerates surrounding
+punctuation, and stored keywords use the same whitespace normalization as input.
+
+From `backend`, after installing `requirements.txt`, run:
+
+```sh
+PYTHONPATH=. python -m pytest tests regression_tests -q
+```
+
+The focused suite uses real in-memory SQLite records and disables external AI
+calls. CI runs the focused regressions and existing backend tests on Python 3.12.
+These checks do not validate an external provider or a production deployment.
